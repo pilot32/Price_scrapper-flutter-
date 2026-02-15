@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:price_scrapper/screens/login.dart';
+import 'package:price_scrapper/screens/home.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'services/auth_service.dart';
@@ -49,22 +50,6 @@ class AuthWrapper extends StatelessWidget {
 
         return const LoginScreen();
       },
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          "Firebase Connected Successfully",
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
     );
   }
 }
