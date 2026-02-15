@@ -1,45 +1,89 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
+# ===============================
+# General
+# ===============================
 .DS_Store
+*.log
+*.swp
+*.pyc
+*.class
 .atom/
-.build/
-.buildlog/
-.history
+.history/
 .svn/
-.swiftpm/
-migrate_working_dir/
 
-# IntelliJ related
+# ===============================
+# IDEs & Editors
+# ===============================
+.idea/
 *.iml
 *.ipr
 *.iws
-.idea/
+.vscode/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# ===============================
+# Flutter / Dart
+# ===============================
 .dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
+.pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
 /build/
-/coverage/
+coverage/
 
-# Symbolication related
-app.*.symbols
+# Flutter versioning
+.fvm/
+.flutter-version
 
-# Obfuscation related
-app.*.map.json
+# ===============================
+# Android
+# ===============================
+android/.gradle/
+android/local.properties
+android/**/build/
+android/app/debug/
+android/app/profile/
+android/app/release/
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
+# Firebase (Android)
+android/app/google-services.json
+
+# ===============================
+# iOS / macOS
+# ===============================
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Runner.xcworkspace/xcuserdata/
+
+# Firebase (iOS)
+ios/Runner/GoogleService-Info.plist
+
+# ===============================
+# macOS
+# ===============================
+macos/Pods/
+macos/Flutter/ephemeral/
+macos/Runner.xcworkspace/xcuserdata/
+
+# ===============================
+# Web
+# ===============================
+web/.env
+web/firebase-config.js
+
+# ===============================
+# Windows / Linux
+# ===============================
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+
+# ===============================
+# Environment files
+# ===============================
+.env
+.env.*
