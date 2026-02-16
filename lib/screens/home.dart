@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
-  bool _isSearchBarAtTop = false;
+  final ValueNotifier<bool> _isSearchBarAtTop = ValueNotifier(false);
 
   List<Product> products = [];
   bool isLoading = true;
@@ -49,14 +49,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll() {
-    // Check if user has scrolled past the title (approximately 120 pixels)
-    if (_scrollController.offset > 120 && !_isSearchBarAtTop) {
+    final isAtTop = _scrollController.offset > 120;
+
+    // Only update if the state actually changed
+    if (isAtTop != _isSearchBarAtTop) {
       setState(() {
-        _isSearchBarAtTop = true;
-      });
-    } else if (_scrollController.offset <= 120 && _isSearchBarAtTop) {
-      setState(() {
-        _isSearchBarAtTop = false;
+        _isSearchBarAtTop.value = isAtTop;
       });
     }
   }
@@ -176,26 +174,31 @@ class _HomePageState extends State<HomePage> {
           ),
 
           // Sticky Search Bar at Top (appears when scrolling)
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 200),
-            top: _isSearchBarAtTop ? 0 : -100,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey[200]!, width: 0.5),
+          ValueListenableBuilder<bool>(
+            valueListenable: _isSearchBarAtTop,
+            builder: (context, isAtTop, child) {
+              return AnimatedPositioned(
+                duration: const Duration(milliseconds: 200),
+                top: isAtTop ? 0 : -100,
+                left: 0,
+                right: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.95),
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey[200]!, width: 0.5),
+                    ),
+                  ),
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                      child: _buildSearchBar(),
+                    ),
+                  ),
                 ),
-              ),
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-                  child: _buildSearchBar(),
-                ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
