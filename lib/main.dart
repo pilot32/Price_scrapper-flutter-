@@ -22,20 +22,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/home': (context) => const HomePage(),
-      },
-
       title: 'Price Scrapper',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      //un comment it for actual product
       home: const AuthWrapper(),
-
-      //home: const HomePage(), // Changed to HomeScreen for testing
     );
   }
 }
@@ -49,8 +40,41 @@ class AuthWrapper extends StatelessWidget {
       stream: AuthService().authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // App Logo/Title
+                  const Text(
+                    'Price-Scrapper',
+                    style: TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF000000),
+                      letterSpacing: -1.0,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'jute pe paise bachao',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  // Loading indicator
+                  const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Color(0xFF007AFF),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
 

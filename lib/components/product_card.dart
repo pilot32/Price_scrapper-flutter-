@@ -43,7 +43,7 @@ class ProductCard extends StatelessWidget {
                     product.image,
                     width: 60,
                     height: 60,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     errorBuilder: (_, __, ___) =>
                         const Icon(Icons.image_not_supported),
                   ),

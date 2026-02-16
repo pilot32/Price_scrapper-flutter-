@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         // App Title
                         const Text(
-                          'Price-Scrapper',
+                          'JUTAFY',
                           style: TextStyle(
                             fontSize: 42,
                             fontWeight: FontWeight.bold,
@@ -92,15 +92,15 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'jute pe paise bachao',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        // Text(
+                        //   'jute pe paise bachao',
+                        //   style: TextStyle(
+                        //     fontSize: 16,
+                        //     color: Colors.grey[600],
+                        //     fontWeight: FontWeight.w400,
+                        //   ),
+                        //   textAlign: TextAlign.center,
+                        // ),
                       ],
                     ),
                   ),
@@ -121,16 +121,16 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Recent Links',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF000000),
-                            letterSpacing: -0.5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        // const Text(
+                        //   'Recent Links',
+                        //   style: TextStyle(
+                        //     fontSize: 22,
+                        //     fontWeight: FontWeight.bold,
+                        //     color: Color(0xFF000000),
+                        //     letterSpacing: -0.5,
+                        //   ),
+                        //   textAlign: TextAlign.center,
+                        // ),
                         const SizedBox(height: 16),
                       ],
                     ),
@@ -201,35 +201,35 @@ class _HomePageState extends State<HomePage> {
       ),
 
       // Floating Action Button
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF007AFF), Color(0xFF00C7FF)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF007AFF).withOpacity(0.4),
-              blurRadius: 16,
-              offset: const Offset(0, 8),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(30),
-            onTap: () {
-              // Handle add link
-            },
-            child: const Icon(Icons.add, color: Colors.white, size: 28),
-          ),
-        ),
-      ),
+      // floatingActionButton: Container(
+      //   width: 60,
+      //   height: 60,
+      //   decoration: BoxDecoration(
+      //     gradient: const LinearGradient(
+      //       colors: [Color(0xFF007AFF), Color(0xFF00C7FF)],
+      //       begin: Alignment.topLeft,
+      //       end: Alignment.bottomRight,
+      //     ),
+      //     borderRadius: BorderRadius.circular(30),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: const Color(0xFF007AFF).withOpacity(0.4),
+      //         blurRadius: 16,
+      //         offset: const Offset(0, 8),
+      //       ),
+      //     ],
+      //   ),
+      //   child: Material(
+      //     color: Colors.transparent,
+      //     child: InkWell(
+      //       borderRadius: BorderRadius.circular(30),
+      //       onTap: () {
+      //         // Handle add link
+      //       },
+      //       child: const Icon(Icons.add, color: Colors.white, size: 28),
+      //     ),
+      //   ),
+      // ),
     );
   }
 
