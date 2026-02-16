@@ -21,12 +21,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomePage(),
+      },
+
       title: 'Price Scrapper',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      // home: const AuthWrapper()
-      home: const HomePage(), // Changed to HomeScreen for testing
+      //un comment it for actual product
+      home: const AuthWrapper(),
+
+      //home: const HomePage(), // Changed to HomeScreen for testing
     );
   }
 }
