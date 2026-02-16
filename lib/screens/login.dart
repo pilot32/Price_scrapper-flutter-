@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_scrapper/screens/signup.dart';
 import '../services/auth_service.dart';
+import 'package:price_scrapper/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -43,8 +45,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
@@ -180,8 +184,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(14),
-                      onTap: () {
-                        // Handle sign in
+                      onTap: () async {
+                        await login();
                       },
                       child: const Center(
                         child: Text(
