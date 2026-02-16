@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import 'package:price_scrapper/components/product_card.dart';
+import 'package:price_scrapper/model/product_model.dart';
+import 'package:price_scrapper/services/product_fetch_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,10 +17,35 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   bool _isSearchBarAtTop = false;
 
+  List<Product> products = [];
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    fetchProducts();
+  }
+
+  Future<void> fetchProducts() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+      final fetchedProducts = await ProductFetchService().fetchProduct(
+        user.email!,
+      );
+      setState(() {
+        products = fetchedProducts;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text("Erro loading Products")));
+      });
+    }
   }
 
   void _onScroll() {
@@ -39,86 +68,111 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           // Main scrollable content
-          CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              // Large Title Header
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // App Title
-                      const Text(
-                        'Price-Scrapper',
-                        style: TextStyle(
-                          fontSize: 42,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF000000),
-                          letterSpacing: -1.0,
+          RefreshIndicator(
+            onRefresh: fetchProducts,
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                // Large Title Header
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // App Title
+                        const Text(
+                          'Price-Scrapper',
+                          style: TextStyle(
+                            fontSize: 42,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000),
+                            letterSpacing: -1.0,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'jute pe paise bachao',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 8),
+                        Text(
+                          'jute pe paise bachao',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              // Search Bar (in scroll view)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  child: _buildSearchBar(),
-                ),
-              ),
-
-              // Content Section
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Recent Links',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF000000),
-                          letterSpacing: -0.5,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
+                // Search Bar (in scroll view)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    child: _buildSearchBar(),
                   ),
                 ),
-              ),
 
-              // List of sample content (to enable scrolling)
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return _buildLinkCard(
-                    title: 'Sample Link ${index + 1}',
-                    url: 'https://example.com/link${index + 1}',
-                    date: '${index + 1} days ago',
-                  );
-                }, childCount: 5),
-              ),
+                // Content Section
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Recent Links',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000),
+                            letterSpacing: -0.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+                ),
 
-              const SliverToBoxAdapter(child: SizedBox(height: 100)),
-            ],
+                // Dynamic product list with loading states
+                if (isLoading)
+                  const SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(40),
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  )
+                else if (products.isEmpty)
+                  const SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(40),
+                        child: Text("No products found"),
+                      ),
+                    ),
+                  )
+                else
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final product = products[index];
+
+                      return ProductCard(
+                        product: product,
+                        onTap: () {
+                          // handle tap
+                        },
+                      );
+                    }, childCount: products.length),
+                  ),
+
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              ],
+            ),
           ),
 
           // Sticky Search Bar at Top (appears when scrolling)
