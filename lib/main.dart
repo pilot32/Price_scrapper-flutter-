@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const AuthWrapper(),
+      // home: const AuthWrapper()
+      home: const HomePage(), // Changed to HomeScreen for testing
     );
   }
 }
@@ -45,7 +46,7 @@ class AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return const HomeScreen();
+          return const HomePage();
         }
 
         return const LoginScreen();
