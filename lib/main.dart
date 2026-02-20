@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:price_scrapper/screens/login.dart';
 import 'package:price_scrapper/screens/home.dart';
+import 'package:price_scrapper/screens/price_tracker_home_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'services/auth_service.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const AuthWrapper(),
+      //home: const AuthWrapper(),
+      home: const HomePageNew(),
     );
   }
 }
@@ -79,7 +81,7 @@ class AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return const HomePage();
+          return const HomePageNew();
         }
 
         return const LoginScreen();
