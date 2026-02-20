@@ -1,5 +1,13 @@
+import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:price_scrapper/model/product_model.dart';
+import 'package:price_scrapper/services/product_fetch_service.dart';
+import 'package:price_scrapper/services/auth_service.dart';
+import 'package:price_scrapper/screens/login.dart';
+import 'package:intl/intl.dart';
 
 class HomePageNew extends StatefulWidget {
   const HomePageNew({super.key});
@@ -15,9 +23,7 @@ class _HomePageNewState extends State<HomePageNew> {
       title: 'Price Tracker',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Apple-inspired font family
-        fontFamily: '.SF Pro Display', // iOS system font
-        // Fallback for Android
+        fontFamily: GoogleFonts.getFont('Inter').fontFamily,
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
@@ -45,199 +51,59 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final NumberFormat _inrFormat = NumberFormat.currency(
+    locale: 'en_IN',
+    symbol: '₹',
+  );
+  bool _showAddButton = false;
+  List<Product> products = [];
+  bool isLoading = true;
 
-  // Sample product data
-  List<Product> products = [
-    Product(
-      id: '1',
-      name: 'Apple MacBook Air M2',
-      price: 999.00,
-      originalPrice: 1199.00,
-      retailer: 'Amazon',
-      imageUrl: 'https://picsum.photos/200/200?random=1',
-      priceDropPercentage: 17,
-    ),
-    Product(
-      id: '2',
-      name: 'Sony WH-1000XM5 Headphones',
-      price: 279.99,
-      originalPrice: 349.99,
-      retailer: 'Best Buy',
-      imageUrl: 'https://picsum.photos/200/200?random=2',
-      priceDropPercentage: 20,
-    ),
-    Product(
-      id: '3',
-      name: 'Samsung Galaxy Watch 6',
-      price: 249.00,
-      originalPrice: 299.00,
-      retailer: 'Walmart',
-      imageUrl: 'https://picsum.photos/200/200?random=3',
-      priceDropPercentage: 17,
-    ),
-    Product(
-      id: '4',
-      name: 'Nike Air Max 270',
-      price: 119.99,
-      originalPrice: 150.00,
-      retailer: 'Nike',
-      imageUrl: 'https://picsum.photos/200/200?random=4',
-      priceDropPercentage: 20,
-    ),
-    Product(
-      id: '5',
-      name: 'Dyson V15 Detect',
-      price: 549.99,
-      originalPrice: 749.99,
-      retailer: 'Target',
-      imageUrl: 'https://picsum.photos/200/200?random=5',
-      priceDropPercentage: 27,
-    ),
-    Product(
-      id: '6',
-      name: 'iPad Pro 12.9" M2',
-      price: 999.00,
-      originalPrice: 1099.00,
-      retailer: 'Apple',
-      imageUrl: 'https://picsum.photos/200/200?random=6',
-      priceDropPercentage: 9,
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchProducts();
+  }
+
+  Future<void> fetchProducts() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        setState(() => isLoading = false);
+        return;
+      }
+      final fetchedProducts = await ProductFetchService().fetchProduct(
+        user.email!,
+      );
+      setState(() {
+        products = fetchedProducts;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Error loading products'),
+            backgroundColor: const Color(0xFFFF3B30),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.all(16),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
     _scrollController.dispose();
     super.dispose();
-  }
-
-  void _showAddProductSheet() {
-    final TextEditingController linkController = TextEditingController();
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: EdgeInsets.fromLTRB(
-          24,
-          16,
-          24,
-          MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Handle bar
-            Center(
-              child: Container(
-                width: 36,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Add Product',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: -0.5,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Paste a product link to track its price',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 24),
-            TextField(
-              controller: linkController,
-              decoration: InputDecoration(
-                hintText: 'Paste product URL here...',
-                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 16),
-                filled: true,
-                fillColor: const Color(0xFFF5F5F7),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.paste, color: Colors.grey[500]),
-                  onPressed: () async {
-                    // final data = await Clipboard.getData('text/plain');
-                    // if (data.text != null && data.text!=null) {
-                    //   linkController.text = data.text!;
-                    // }
-                  },
-                ),
-              ),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _showSuccessSnackBar();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF007AFF),
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Start Tracking',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showSuccessSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Row(
-          children: [
-            Icon(Icons.check_circle, color: Colors.white),
-            SizedBox(width: 12),
-            Text(
-              'Product added successfully!',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        backgroundColor: const Color(0xFF34C759),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.all(16),
-      ),
-    );
   }
 
   @override
@@ -253,27 +119,122 @@ class _HomePageState extends State<HomePage> {
             // Fixed Search Bar Section
             _buildSearchBar(),
 
+            // Animated Add Product Button
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              child: _showAddButton
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 44,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // UI only — no logic yet
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF007AFF),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            "Add Product",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+
             // Scrollable Product List
-            Expanded(child: _buildProductList()),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: fetchProducts,
+                color: const Color(0xFF007AFF),
+                child: _buildProductList(),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
+  void _logout() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Logout'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Color(0xFFFF3B30)),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      await AuthService().logout();
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+          (route) => false,
+        );
+      }
+    }
+  }
+
   Widget _buildTitleSection() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
-      alignment: Alignment.center,
-      child: const Text(
-        'Price Tracker',
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.8,
-          color: Colors.black,
-        ),
+      padding: const EdgeInsets.fromLTRB(20, 12, 12, 8),
+      child: Row(
+        children: [
+          // Logout button (left)
+          GestureDetector(
+            onTap: _logout,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.power_settings_new,
+                color: Color(0xFFFF3B30),
+                size: 22,
+              ),
+            ),
+          ),
+          // Centered title
+          Expanded(
+            child: const Text(
+              'Price Tracker',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.8,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -292,6 +253,11 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    _showAddButton = value.isNotEmpty;
+                  });
+                },
                 controller: _searchController,
                 decoration: InputDecoration(
                   hintText: 'Search tracked products...',
@@ -300,6 +266,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
+
                   prefixIcon: Icon(
                     Icons.search,
                     color: Colors.grey[500],
@@ -318,37 +285,61 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
-          // Add Button
-          GestureDetector(
-            onTap: _showAddProductSheet,
-            child: Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: const Color(0xFF007AFF),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF007AFF).withOpacity(0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const Icon(Icons.add, color: Colors.white, size: 26),
-            ),
-          ),
         ],
       ),
     );
   }
 
   Widget _buildProductList() {
+    if (isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(40),
+          child: CircularProgressIndicator(color: Color(0xFF007AFF)),
+        ),
+      );
+    }
+
+    if (products.isEmpty) {
+      return ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          const SizedBox(height: 80),
+          Center(
+            child: Column(
+              children: [
+                Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 64,
+                  color: Colors.grey[300],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No products tracked yet',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[500],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Tap + to add a product link',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[400]),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     return ListView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      physics: const BouncingScrollPhysics(),
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
       itemCount: products.length + 1, // +1 for the header
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -439,6 +430,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProductCard(Product product) {
+    // Extract retailer from URL
+    String retailer = 'Store';
+    try {
+      final uri = Uri.parse(product.url);
+      retailer = uri.host.replaceAll('www.', '').split('.').first;
+      retailer = retailer[0].toUpperCase() + retailer.substring(1);
+    } catch (_) {}
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -474,7 +473,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Retailer Badge
-                      _buildRetailerBadge(product.retailer),
+                      _buildRetailerBadge(retailer),
                       const SizedBox(height: 8),
                       // Product Name
                       Text(
@@ -492,7 +491,8 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(height: 8),
                       // Price Row
                       Text(
-                        '\$${product.price.toStringAsFixed(2)}',
+                        // '\$${product.currentPrice.toStringAsFixed(2)}',
+                        _inrFormat.format(product.currentPrice),
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
@@ -500,9 +500,6 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         ),
                       ),
-
-                      //const SizedBox(height: 10),
-                      // Price Drop Badge
                     ],
                   ),
                 ),
@@ -531,26 +528,34 @@ class _HomePageState extends State<HomePage> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.network(
-          product.imageUrl,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey[300]!),
+        child: product.image.isNotEmpty
+            ? Image.network(
+                product.image,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.grey[300]!,
+                      ),
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.image_outlined,
+                    size: 36,
+                    color: Colors.grey[400],
+                  );
+                },
+              )
+            : Icon(
+                Icons.shopping_bag_outlined,
+                size: 36,
+                color: Colors.grey[400],
               ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return Icon(
-              Icons.image_outlined,
-              size: 36,
-              color: Colors.grey[400],
-            );
-          },
-        ),
       ),
     );
   }
@@ -676,25 +681,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-// Product Model
-class Product {
-  final String id;
-  final String name;
-  final double price;
-  final double originalPrice;
-  final String retailer;
-  final String imageUrl;
-  final int priceDropPercentage;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.originalPrice,
-    required this.retailer,
-    required this.imageUrl,
-    required this.priceDropPercentage,
-  });
 }
