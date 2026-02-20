@@ -1,226 +1,248 @@
-Price Tracker – Mobile Application
+# PRICE TRACKER – MOBILE APPLICATION
 
-A real-time mobile application that allows users to track product prices from supported e-commerce URLs. The system monitors price changes automatically and sends push notifications when a price drop is detected.
+---
 
-Overview
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PROJECT SUMMARY
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-This project consists of:
+A real-time mobile application that enables users to monitor product prices from supported URLs.  
+The system automatically checks for price updates and sends push notifications when a price drop is detected.
 
-Flutter Mobile Application
+This project includes:
 
-Node.js + Express Backend
+• Flutter Mobile Application  
+• Node.js + Express Backend  
+• Firebase Authentication  
+• Firestore Database  
+• Puppeteer-based Web Scraper  
+• Scheduled Background Monitoring  
+• Firebase Cloud Messaging (Push Notifications)  
 
-Firebase Authentication
+---
 
-Firestore Database
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## SYSTEM ARCHITECTURE
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Automated Web Scraper (Puppeteer)
-
-Scheduled Price Monitoring (Cron Job)
-
-Firebase Cloud Messaging (Push Notifications)
-
-The app enables users to:
-
-Register and authenticate securely
-
-Add product URLs for tracking
-
-View tracked products
-
-Receive push notifications on price drops
-
-Monitor automatic background updates
-
-Architecture
+```
 Mobile App (Flutter)
-        |
-        |  Authenticated API Calls
-        v
+        │
+        │  Authenticated Requests
+        ▼
 Backend (Express + Firebase Admin)
-        |
-        |  Writes / Updates
-        v
-Firestore Database
-        |
-        |  Scheduled Scraping
-        v
-Price Updates -> Push Notification (FCM)
+        │
+        │  Database Writes
+        ▼
+Firestore
+        │
+        │  Scheduled Scraping (Cron)
+        ▼
+Price Update Detected
+        │
+        ▼
+Push Notification (FCM)
+```
 
-Features
-Authentication
+---
 
-Secure login and signup
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## CORE FEATURES
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Firebase Authentication integration
+### Authentication
+----------------------------------------
+Secure user registration and login  
+Firebase-based identity management  
+Token-verified backend requests  
 
-Token-based backend verification
+### Product Tracking
+----------------------------------------
+Add product URL  
+Automated price extraction  
+Persistent monitoring system  
 
-Product Tracking
+### Scheduled Monitoring
+----------------------------------------
+Automated background checks  
+Database updates on price change  
+Price comparison logic  
 
-Add product URL
+### Push Notifications
+----------------------------------------
+Instant mobile alerts on price drop  
+Foreground and background support  
+Device token registration  
 
-Automatic price extraction
+### Security
+----------------------------------------
+Backend Firebase ID token validation  
+Firestore access restriction  
+User data isolation  
 
-Persistent product monitoring
+---
 
-Real-Time Updates
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## TECHNOLOGY STACK
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Scheduled backend price checks
+### Mobile Layer
+----------------------------------------
+Flutter  
+Firebase Core  
+Firebase Messaging  
+HTTP Client  
 
-Firestore updates on price change
+### Backend Layer
+----------------------------------------
+Node.js  
+Express.js  
+Firebase Admin SDK  
+Puppeteer  
+node-cron  
 
-Optional live UI updates
+### Database
+----------------------------------------
+Cloud Firestore  
 
-Push Notifications
+### Notifications
+----------------------------------------
+Firebase Cloud Messaging (FCM)  
 
-Mobile push notifications on price drop
+---
 
-Works in foreground, background, and terminated states
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## PROJECT STRUCTURE
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Security
-
-Backend verifies Firebase ID tokens
-
-Firestore rules restrict unauthorized access
-
-No direct client database writes
-
-Tech Stack
-Mobile
-
-Flutter
-
-Firebase Core
-
-Firebase Messaging
-
-HTTP Client
-
-Backend
-
-Node.js
-
-Express.js
-
-Firebase Admin SDK
-
-Puppeteer (Web Scraping)
-
-node-cron (Scheduled Tasks)
-
-Database
-
-Cloud Firestore
-
-Notifications
-
-Firebase Cloud Messaging (FCM)
-
-Project Structure
+```
 mobile_app/
-    lib/
-    main.dart
-    pubspec.yaml
+│
+├── lib/
+├── main.dart
+└── pubspec.yaml
+
 
 backend/
-    routes/
-    middleware/
-    index.js
-    firebase/
+│
+├── routes/
+├── middleware/
+├── index.js
+└── firebase/
+```
 
-Setup Instructions
-1. Clone Repository
+---
+
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## INSTALLATION GUIDE
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+### 1. Clone Repository
+
+```
 git clone <repository-url>
+```
 
-2. Backend Setup
+---
+
+### 2. Backend Setup
+
+```
 cd backend
 npm install
+```
 
+Add Firebase service account:
 
-Add Firebase service account file:
-
+```
 backend/firebase/serviceAccountKey.json
+```
 
+Create `.env` file:
 
-Create .env file:
-
+```
 PORT=5000
+```
 
+Start backend:
 
-Run server:
-
+```
 npm start
+```
 
-3. Mobile Setup
+---
+
+### 3. Mobile Setup
+
+```
 cd mobile_app
 flutter pub get
+```
 
+Add Firebase configuration files:
 
-Add configuration files:
-
-google-services.json for Android
-
-GoogleService-Info.plist for iOS (if applicable)
+• google-services.json (Android)  
+• GoogleService-Info.plist (iOS if required)  
 
 Run application:
 
+```
 flutter run
+```
 
-How Notifications Work
+---
 
-User logs in
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## NOTIFICATION FLOW
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-App generates FCM device token
+1. User logs in  
+2. Device FCM token generated  
+3. Token stored in Firestore via backend  
+4. Scheduled job checks product prices  
+5. If price drops:
+   - Firestore updates  
+   - Push notification sent  
 
-Token is stored in Firestore via backend
+---
 
-Scheduled job checks product prices
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## SECURITY MODEL
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-On price drop:
+• Backend validates all Firebase ID tokens  
+• Firestore client access restricted  
+• No direct client database writes  
+• User-based document separation  
 
-Firestore updated
+---
 
-FCM notification sent to user device
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## FUTURE ENHANCEMENTS
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Security Design
+• Price history tracking  
+• Multi-device sync  
+• Email alerts  
+• Advanced scraping engine  
+• Proxy integration  
+• Rate limiting  
+• Analytics dashboard  
 
-Backend validates all requests using Firebase ID tokens
+---
 
-Firestore client access is restricted
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## DEVELOPMENT NOTES
+## ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Only authenticated users can track products
+• Scraping logic may require adjustment per website  
+• Ensure compliance with website terms  
+• Add retry logic for resilience  
+• Consider proxy support for production  
 
-User data is isolated per account
+---
 
-Future Improvements
+## LICENSE
 
-Price history visualization
-
-Multi-product tracking dashboard
-
-Email alerts
-
-Web dashboard
-
-Advanced scraping engine
-
-Proxy integration
-
-Rate limiting
-
-Admin panel
-
-Development Notes
-
-Scraping logic may require adjustment for different websites
-
-Ensure compliance with applicable laws and website policies
-
-Configure retry logic for failed scrapes
-
-Use proxies in production for scraping stability
-License
-
-This project is intended for educational and development purposes.
-Ensure compliance with applicable laws and platform policies before deploying publicly.
+This project is intended for educational and development purposes.  
+Ensure compliance with applicable laws before public deployment.
