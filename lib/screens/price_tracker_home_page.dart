@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
             const Text(
               'Add Product',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.w600,
                 letterSpacing: -0.5,
               ),
@@ -157,7 +157,7 @@ class _HomePageState extends State<HomePage> {
             Text(
               'Paste a product link to track its price',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 14,
                 color: Colors.grey[600],
                 height: 1.4,
               ),
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 16,
-                  vertical: 16,
+                  vertical: 12,
                 ),
                 suffixIcon: IconButton(
                   icon: Icon(Icons.paste, color: Colors.grey[500]),
@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
-              height: 54,
+              height: 48,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -264,12 +264,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildTitleSection() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 8),
       alignment: Alignment.center,
       child: const Text(
         'Price Tracker',
         style: TextStyle(
-          fontSize: 28,
+          fontSize: 22,
           fontWeight: FontWeight.w700,
           letterSpacing: -0.8,
           color: Colors.black,
@@ -281,12 +281,12 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSearchBar() {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              height: 50,
+              height: 44,
               decoration: BoxDecoration(
                 color: const Color(0xFFF5F5F7),
                 borderRadius: BorderRadius.circular(12),
@@ -323,8 +323,8 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: _showAddProductSheet,
             child: Container(
-              width: 50,
-              height: 50,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: const Color(0xFF007AFF),
                 borderRadius: BorderRadius.circular(12),
@@ -362,14 +362,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildListHeader() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16, top: 8),
+      padding: const EdgeInsets.only(bottom: 12, top: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'Tracked Products',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
               letterSpacing: -0.3,
               color: Colors.grey[800],
@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildProductCard(Product product) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -418,7 +418,7 @@ class _HomePageState extends State<HomePage> {
             // Navigate to product details
           },
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -437,7 +437,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         product.name,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: -0.2,
                           color: Colors.black,
@@ -451,7 +451,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         '\$${product.price.toStringAsFixed(2)}',
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 17,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.5,
                           color: Colors.black,
@@ -480,8 +480,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildProductImage(Product product) {
     return Container(
-      width: 90,
-      height: 90,
+      width: 75,
+      height: 75,
       decoration: BoxDecoration(
         color: const Color(0xFFF5F5F7),
         borderRadius: BorderRadius.circular(12),
@@ -557,8 +557,6 @@ class _HomePageState extends State<HomePage> {
   //   );
   // }
 
- 
-
   void _showProductOptions(Product product) {
     showModalBottomSheet(
       context: context,
@@ -617,7 +615,7 @@ class _HomePageState extends State<HomePage> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             Icon(icon, size: 24, color: color ?? Colors.grey[700]),
