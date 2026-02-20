@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
 
   // Sample product data
-  final List<Product> products = [
+  List<Product> products = [
     Product(
       id: '1',
       name: 'Apple MacBook Air M2',
@@ -355,7 +355,50 @@ class _HomePageState extends State<HomePage> {
           return _buildListHeader();
         }
         final product = products[index - 1];
-        return _buildProductCard(product);
+        return Dismissible(
+          key: Key(product.id),
+          direction: DismissDirection.endToStart, // swipe LEFT only
+          background: Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            alignment: Alignment.centerRight,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFF3B30), // iOS delete red
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(Icons.delete, color: Colors.white, size: 28),
+          ),
+          confirmDismiss: (direction) async {
+            return await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Remove Product'),
+                content: const Text(
+                  'Are you sure you want to remove this item?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: const Text(
+                      'Delete',
+                      style: TextStyle(color: Color(0xFFFF3B30)),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          onDismissed: (direction) {
+            setState(() {
+              products.removeAt(index - 1);
+            });
+          },
+          child: _buildProductCard(product),
+        );
       },
     );
   }
