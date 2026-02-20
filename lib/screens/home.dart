@@ -53,9 +53,8 @@ class _HomePageState extends State<HomePage> {
 
     // Only update if the state actually changed
     if (isAtTop != _isSearchBarAtTop) {
-      setState(() {
-        _isSearchBarAtTop.value = isAtTop;
-      });
+      _isSearchBarAtTop.value = isAtTop;
+
     }
   }
 
@@ -69,6 +68,7 @@ class _HomePageState extends State<HomePage> {
           RefreshIndicator(
             onRefresh: fetchProducts,
             child: CustomScrollView(
+              cacheExtent: 800,
               controller: _scrollController,
               slivers: [
                 // Large Title Header
@@ -159,11 +159,13 @@ class _HomePageState extends State<HomePage> {
                     delegate: SliverChildBuilderDelegate((context, index) {
                       final product = products[index];
 
-                      return ProductCard(
-                        product: product,
-                        onTap: () {
-                          // handle tap
-                        },
+                      return RepaintBoundary(
+                        child: ProductCard(
+                          product: product,
+                          onTap: () {
+
+                          },
+                        ),
                       );
                     }, childCount: products.length),
                   ),
@@ -237,47 +239,34 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildSearchBar() {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F7),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: _searchController,
-        style: const TextStyle(fontSize: 16, color: Colors.black),
-        decoration: InputDecoration(
-          hintText: 'Paste your link here',
-          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 16),
-          prefixIcon: const Icon(
-            Icons.link,
-            color: Color(0xFF8E8E93),
-            size: 22,
+    return ValueListenableBuilder<TextEditingValue>(
+      valueListenable: _searchController,
+      builder: (context, value, child) {
+        return Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF2F2F7),
+            borderRadius: BorderRadius.circular(12),
           ),
-          suffixIcon: _searchController.text.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.clear,
-                    color: Color(0xFF8E8E93),
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _searchController.clear();
-                    });
-                  },
-                )
-              : null,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 14,
+          child: TextField(
+            controller: _searchController,
+            style: const TextStyle(fontSize: 16, color: Colors.black),
+            decoration: InputDecoration(
+              hintText: 'Paste your link here',
+              prefixIcon: const Icon(Icons.link),
+              suffixIcon: value.text.isNotEmpty
+                  ? IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  _searchController.clear();
+                },
+              )
+                  : null,
+              border: InputBorder.none,
+            ),
           ),
-        ),
-        onChanged: (value) {
-          setState(() {});
-        },
-      ),
+        );
+      },
     );
   }
 
