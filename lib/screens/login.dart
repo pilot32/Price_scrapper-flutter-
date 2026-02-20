@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Text(
                   'Welcome Back',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF000000),
                     letterSpacing: -0.5,
@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Sign In Button
                 Container(
-                  height: 56,
+                  height: 48,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFF007AFF), Color(0xFF00C7FF)],
@@ -192,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Sign In',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                             letterSpacing: -0.4,
                           ),
@@ -312,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
         style: const TextStyle(fontSize: 16, color: Colors.black),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 16),
+          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 14),
           prefixIcon: Icon(
             prefixIcon,
             color: const Color(0xFF8E8E93),
@@ -322,7 +322,7 @@ class _LoginScreenState extends State<LoginScreen> {
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
-            vertical: 16,
+            vertical: 12,
           ),
         ),
       ),
@@ -337,7 +337,7 @@ class _LoginScreenState extends State<LoginScreen> {
     bool hasBorder = false,
   }) {
     return Container(
-      height: 56,
+      height: 48,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(14),
@@ -361,7 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text,
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.4,
                 ),

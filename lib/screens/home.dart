@@ -54,7 +54,6 @@ class _HomePageState extends State<HomePage> {
     // Only update if the state actually changed
     if (isAtTop != _isSearchBarAtTop) {
       _isSearchBarAtTop.value = isAtTop;
-
     }
   }
 
@@ -74,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 // Large Title Header
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 60, 24, 20),
+                    padding: const EdgeInsets.fromLTRB(24, 40, 24, 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -82,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                         const Text(
                           'JUTAFY',
                           style: TextStyle(
-                            fontSize: 42,
+                            fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF000000),
                             letterSpacing: -1.0,
@@ -160,12 +159,7 @@ class _HomePageState extends State<HomePage> {
                       final product = products[index];
 
                       return RepaintBoundary(
-                        child: ProductCard(
-                          product: product,
-                          onTap: () {
-
-                          },
-                        ),
+                        child: ProductCard(product: product, onTap: () {}),
                       );
                     }, childCount: products.length),
                   ),
@@ -243,7 +237,7 @@ class _HomePageState extends State<HomePage> {
       valueListenable: _searchController,
       builder: (context, value, child) {
         return Container(
-          height: 50,
+          height: 44,
           decoration: BoxDecoration(
             color: const Color(0xFFF2F2F7),
             borderRadius: BorderRadius.circular(12),
@@ -256,11 +250,11 @@ class _HomePageState extends State<HomePage> {
               prefixIcon: const Icon(Icons.link),
               suffixIcon: value.text.isNotEmpty
                   ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  _searchController.clear();
-                },
-              )
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        _searchController.clear();
+                      },
+                    )
                   : null,
               border: InputBorder.none,
             ),

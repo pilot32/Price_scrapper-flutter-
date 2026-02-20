@@ -4,11 +4,7 @@ import 'package:price_scrapper/model/product_model.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback? onTap;
-  const ProductCard({
-    super.key,
-    required this.product,
-    this.onTap,
-    });
+  const ProductCard({super.key, required this.product, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +28,9 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-
                 /// PRODUCT IMAGE
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
@@ -56,14 +51,13 @@ class ProductCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       /// NAME
                       Text(
                         product.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -74,7 +68,7 @@ class ProductCard extends StatelessWidget {
                       Text(
                         "₹ ${product.currentPrice.toStringAsFixed(0)}",
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                         ),
