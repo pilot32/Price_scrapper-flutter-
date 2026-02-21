@@ -47,11 +47,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 8.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 24),
 
                 // App Icon/Logo
                 // Container(
@@ -78,13 +81,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 //     color: Colors.white,
                 //   ),
                 // ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
 
                 // Welcome Text
                 const Text(
                   'Create Account',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF000000),
                     letterSpacing: -0.5,
@@ -92,19 +95,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
 
                 const Text(
                   'Sign up to get started',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     color: Color(0xFF8E8E93),
                     fontWeight: FontWeight.w400,
                   ),
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 28),
 
                 // Full Name TextField
                 _buildIOSTextField(
@@ -114,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.name,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
                 // Email TextField
                 _buildIOSTextField(
@@ -124,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.emailAddress,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
                 // Password TextField
                 _buildIOSTextField(
@@ -147,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
                 // Confirm Password TextField
                 _buildIOSTextField(
@@ -170,14 +173,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 14),
 
                 // Terms and Conditions Checkbox
                 Row(
                   children: [
                     SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: 20,
+                      height: 20,
                       child: Checkbox(
                         value: _agreeToTerms,
                         onChanged: (value) {
@@ -199,7 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             'I agree to the ',
                             style: TextStyle(
                               color: Color(0xFF8E8E93),
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           GestureDetector(
@@ -210,7 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               'Terms & Conditions',
                               style: TextStyle(
                                 color: Color(0xFF007AFF),
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -219,7 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ' and ',
                             style: TextStyle(
                               color: Color(0xFF8E8E93),
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           GestureDetector(
@@ -230,7 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               'Privacy Policy',
                               style: TextStyle(
                                 color: Color(0xFF007AFF),
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -241,18 +244,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Sign Up Button
                 Container(
-                  height: 56,
+                  height: 44,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFF007AFF), Color(0xFF00C7FF)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF007AFF).withOpacity(0.4),
@@ -264,7 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       onTap: () {
                         // Handle sign up
                       },
@@ -273,7 +276,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           'Sign Up',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 17,
+                            fontSize: 15,
                             fontWeight: FontWeight.w600,
                             letterSpacing: -0.4,
                           ),
@@ -283,7 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Divider
                 Row(
@@ -313,7 +316,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Social Login Buttons
                 _buildSocialButton(
@@ -323,7 +326,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textColor: Colors.white,
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 _buildSocialButton(
                   icon: Icons.g_mobiledata,
@@ -333,7 +336,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   hasBorder: true,
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 28),
 
                 // Sign In Text
                 Row(
@@ -341,7 +344,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     const Text(
                       "Already have an account? ",
-                      style: TextStyle(color: Color(0xFF8E8E93), fontSize: 14),
+                      style: TextStyle(color: Color(0xFF8E8E93), fontSize: 13),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -351,7 +354,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         'Sign In',
                         style: TextStyle(
                           color: Color(0xFF007AFF),
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -359,7 +362,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -385,20 +388,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        style: const TextStyle(fontSize: 16, color: Colors.black),
+        style: const TextStyle(fontSize: 14, color: Colors.black),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 16),
+          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 13),
           prefixIcon: Icon(
             prefixIcon,
             color: const Color(0xFF8E8E93),
-            size: 22,
+            size: 20,
           ),
           suffixIcon: suffixIcon,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
+            horizontal: 14,
+            vertical: 12,
           ),
         ),
       ),
@@ -413,10 +416,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     bool hasBorder = false,
   }) {
     return Container(
-      height: 56,
+      height: 42,
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         border: hasBorder
             ? Border.all(color: const Color(0xFFE5E5EA), width: 1)
             : null,
@@ -424,20 +427,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(12),
           onTap: () {
             // Handle social login
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: textColor, size: 24),
-              const SizedBox(width: 12),
+              Icon(icon, color: textColor, size: 20),
+              const SizedBox(width: 10),
               Text(
                 text,
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 16,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.4,
                 ),

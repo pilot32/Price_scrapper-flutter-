@@ -50,11 +50,14 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 8.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
 
                 // App Icon/Logo
                 // Container(
@@ -81,13 +84,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 //     color: Colors.white,
                 //   ),
                 // ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
 
                 // Welcome Text
                 const Text(
                   'Welcome Back',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF000000),
                     letterSpacing: -0.5,
@@ -95,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
 
                 const Text(
                   'Sign in to continue',
@@ -107,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 48),
+                const SizedBox(height: 32),
 
                 // Email TextField
                 _buildIOSTextField(
@@ -117,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
 
                 // Password TextField
                 _buildIOSTextField(
@@ -140,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // Forgot Password
                 Align(
@@ -160,18 +163,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // Sign In Button
                 Container(
-                  height: 48,
+                  height: 42,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFF007AFF), Color(0xFF00C7FF)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF007AFF).withOpacity(0.4),
@@ -183,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(12),
                       onTap: () async {
                         await login();
                       },
@@ -192,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Sign In',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.w600,
                             letterSpacing: -0.4,
                           ),
@@ -202,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Divider
                 Row(
@@ -232,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
 
                 // Social Login Buttons
                 _buildSocialButton(
@@ -242,7 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textColor: Colors.white,
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 _buildSocialButton(
                   icon: Icons.g_mobiledata,
@@ -252,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hasBorder: true,
                 ),
 
-                const SizedBox(height: 48),
+                const SizedBox(height: 32),
 
                 // Sign Up Text
                 Row(
@@ -260,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Text(
                       "Don't have an account? ",
-                      style: TextStyle(color: Color(0xFF8E8E93), fontSize: 14),
+                      style: TextStyle(color: Color(0xFF8E8E93), fontSize: 13),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -275,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Sign Up',
                         style: TextStyle(
                           color: Color(0xFF007AFF),
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -283,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -309,20 +312,20 @@ class _LoginScreenState extends State<LoginScreen> {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        style: const TextStyle(fontSize: 16, color: Colors.black),
+        style: const TextStyle(fontSize: 14, color: Colors.black),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 14),
+          hintStyle: const TextStyle(color: Color(0xFF8E8E93), fontSize: 13),
           prefixIcon: Icon(
             prefixIcon,
             color: const Color(0xFF8E8E93),
-            size: 22,
+            size: 20,
           ),
           suffixIcon: suffixIcon,
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 12,
+            horizontal: 14,
+            vertical: 10,
           ),
         ),
       ),
@@ -337,10 +340,10 @@ class _LoginScreenState extends State<LoginScreen> {
     bool hasBorder = false,
   }) {
     return Container(
-      height: 48,
+      height: 42,
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         border: hasBorder
             ? Border.all(color: const Color(0xFFE5E5EA), width: 1)
             : null,
@@ -348,20 +351,20 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(12),
           onTap: () {
             // Handle social login
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: textColor, size: 24),
-              const SizedBox(width: 12),
+              Icon(icon, color: textColor, size: 20),
+              const SizedBox(width: 10),
               Text(
                 text,
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.4,
                 ),
