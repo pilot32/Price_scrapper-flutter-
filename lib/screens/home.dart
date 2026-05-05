@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import 'package:price_scrapper/components/product_card.dart';
@@ -29,7 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchProducts() async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = AuthService().currentUser;
       if (user == null) return;
       final fetchedProducts = await ProductFetchService().fetchProduct(
         user.email!,

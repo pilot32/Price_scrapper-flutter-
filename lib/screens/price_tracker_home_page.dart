@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +66,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchProducts() async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = AuthService().currentUser;
       if (user == null) {
         setState(() => isLoading = false);
         return;
